@@ -1,0 +1,33 @@
+{
+  "name": "analyze-transac",
+  "version": "1.0.0",
+  "description": "Module Interface administration to monitor Mobile Payments achieved in schools ",
+  "main": "index.js",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-jwt": "^6.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.5.9",
+    "mongoose": "^5.13.7",
+    "rootpath": "^0.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/djobiii2078/analyze-transac.git"
+  },
+  "keywords": [
+    "mobile",
+    "payment",
+    "school",
+    "administrations"
+  ],
+  "author": "djobiii2078",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/djobiii2078/analyze-transac/issues"
+  },
+  "homepage": "https://github.com/djobiii2078/analyze-transac#readme"
+}

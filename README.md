@@ -1,3 +1,12 @@
-# analyze-transac
-Analyze mobile money (MTN/Orange/ExpressUnion Money) transactions for scholar payments to provide insights to possible decidors. 
-Define `roles` and right accesses to manage who sees what and generate timed reports.
+# Analyze-Transacs
+
+The goal is to monitor mobile payments issued in secondary schools of Cameroon.
+Composed of two main parts: `funcs` which englobes all the backend functionnalities exposed and `face` which englobes the views presented to the user.
+
+## Deploy funcs
+
+## Deploy face
+
+## Test
+
+## Recommandations
