@@ -15,9 +15,11 @@ app.use(jwt());
 
 // api routes
 app.use('/users', require('./db_helpers/users/user.controller'));
+app.use('/schools', require('./db_helpers/schools/school.controller'));
+app.use('/transactions',require('./db_helpers/transactions/transaction.controller'));
 
 // global error handler
-app.use(errorHandler);
+//app.use(errorHandler);
 
 // start server
 const port = process.env.NODE_ENV === 'production' ? (process.env.PORT || 80) : 4000;

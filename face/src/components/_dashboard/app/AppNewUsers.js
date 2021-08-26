@@ -6,6 +6,8 @@ import { Card, Typography } from '@material-ui/core';
 // utils
 import { fShortenNumber } from '../../../utils/formatNumber';
 
+import {useState, useEffect} from 'react';
+
 // ----------------------------------------------------------------------
 
 const RootStyle = styled(Card)(({ theme }) => ({
@@ -36,15 +38,34 @@ const IconWrapperStyle = styled('div')(({ theme }) => ({
 
 const TOTAL = 1352831;
 
-export default function AppNewUsers() {
+export default function AppNewUsers(params) {
+  //Sum of transacs and transactions
+  const [length,setLength] = useState(78);
+  const [sum, setSum] = useState(0);
+
+   useEffect( () => {
+    async function renderVals(id,token){
+       fetch('http://127.0.0.1:4000/transactions/count/'+id+'/UBA',{
+          method : 'GET',
+          headers: {
+            'Content-Type' : 'application/json',
+            'Authorization' : 'Bearer '+token 
+          }
+         }).then(transacs => transacs.json())
+         .then( transacs => {
+            setSum(transacs[0].sum);
+         })
+      
+      
+    }
+    renderVals(params.id,params.token);
+  },[sum,length]);
   return (
     <RootStyle>
-      <IconWrapperStyle>
-        <Icon icon={appleFilled} width={24} height={24} />
-      </IconWrapperStyle>
-      <Typography variant="h3">{fShortenNumber(TOTAL)}</Typography>
+      <Typography variant="h2"> MTN </Typography>
+      <Typography variant="h3">{fShortenNumber(sum)}</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
-        150K Transactions
+        {length} Transactions
       </Typography>
     </RootStyle>
   );

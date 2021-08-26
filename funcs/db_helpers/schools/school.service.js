@@ -14,11 +14,13 @@ module.exports = {
     getAll,
     getAllRegion,
     getAllRegionDept,
+    getAllDept,
     getById,
     create,
     update,
     delete: _delete
 };
+
 
 async function getAll() {
     return await School.find();
@@ -35,6 +37,10 @@ async function getAllRegion(region){
 
 async function getAllRegionDept(region,dept){
     return await School.find({ region: region, department: department })
+}
+
+async function getAllDept(dept){
+    return await School.find({ department: department })
 }
 
 //TODO: Get the schools within a certain perimeter e.g., 10KM^2 from a fixed point

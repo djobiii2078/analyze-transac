@@ -5,6 +5,7 @@ import { useFormik, Form, FormikProvider } from 'formik';
 import { Icon } from '@iconify/react';
 import eyeFill from '@iconify/icons-eva/eye-fill';
 import eyeOffFill from '@iconify/icons-eva/eye-off-fill';
+import {setSessionCookie} from '../../../session.js';
 // material
 import {
   Link,
@@ -51,6 +52,7 @@ export default function LoginForm() {
       .then(res => {
         console.log(res);
         if(res.token != undefined) {
+          setSessionCookie(JSON.stringify({'id':res.id,'role':res.role,'token':res.token}));
           navigate('/dashboard', { replace: true });
         } else {
           setSubmitting(false);

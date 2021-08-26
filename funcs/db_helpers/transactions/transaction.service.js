@@ -15,6 +15,7 @@ module.exports = {
     getById,
     getBySchoolIds,
     create,
+    getCount,
     delete: _delete
 };
 
@@ -28,6 +29,14 @@ async function getAll() {
     return await Transactions.find();
 }
 
+/**
+ * 
+ */
+
+ async function getCount(operator) {
+    return await Transactions.aggregate([{$match: {$and: [{operator:operator}]}},{$group:{_id: null, sum: {$sum: "$value"}}}]);
+ }
+
 async function getById(id) {
     return await Transactions.findById(id);
 }
@@ -40,13 +49,13 @@ async function getBySchoolIds(ids){
 async function create(transaction) {
     // validate
    
-    const transaction = new School(schoolParam);
+    const transac = new Transactions(transaction);
 
     // hash password
     
 
     // save user
-    await transaction.save();
+    await transac.save();
 }
 
 /**
@@ -54,14 +63,14 @@ async function create(transaction) {
  * Any way, let's just write it
  */
 async function update(id, transactionParam) {
-    const transaction = await transaction.findById(id);
+    const transaction = await Transactions.findById(id);
 
     // validate
     if (!transaction) throw 'Transaction not found';
     
 
     // copy userParam properties to user
-    transaction.assign(school, schoolParam);
+    transaction.assign(transaction, transactionParam);
 
     await transaction.save();
 }

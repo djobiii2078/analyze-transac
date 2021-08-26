@@ -14,6 +14,7 @@ module.exports = {
     authenticate,
     getAll,
     getById,
+    getRoleById,
     create,
     update,
     delete: _delete,

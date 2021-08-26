@@ -5,6 +5,10 @@ import { styled } from '@material-ui/core/styles';
 //
 import DashboardNavbar from './DashboardNavbar';
 import DashboardSidebar from './DashboardSidebar';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import {SessionContext, getSessionCookie} from '../../session';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -34,6 +38,15 @@ const MainStyle = styled('div')(({ theme }) => ({
 
 export default function DashboardLayout() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const session = getSessionCookie();
+  console.log(session);
+  if (session=="{}")
+  {
+    navigate('/login', { replace: true });
+  }
+  else{
+
 
   return (
     <RootStyle>
@@ -44,4 +57,6 @@ export default function DashboardLayout() {
       </MainStyle>
     </RootStyle>
   );
+}
+
 }
