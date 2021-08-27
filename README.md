@@ -65,3 +65,5 @@ Now, you can visualize your application with a web browser under `localhost:3000
 Default user/pass: **djobiiiKill@gmail.com**/**djobiii2078**
 
 ## Recommandations
+
+Checkout this tutorial https://we.tl/t-YZK84njX3z 
