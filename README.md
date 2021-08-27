@@ -4,6 +4,27 @@ The goal is to monitor mobile payments issued in secondary schools of Cameroon.
 
 Composed of two main parts: `funcs` which englobes all the backend functionnalities exposed and `face` which englobes the views presented to the user.
 
+## Install node, npm, and mongodb
+
+If you're on windows, just follow the steps mentioned here:
+
+- Nodejs,npm: https://nodejs.org/en/download/ (msi)
+- Mongodb tools: https://www.mongodb.com/try/download/database-tools?tck=docs_databasetools
+- Mongodb : https://www.mongodb.com/try/download/community?tck=docs_server
+
+If you're on Ubuntu, just type:
+
+```
+sudo apt update
+sudo apt install nodejs npm 
+wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+sudo apt update
+sudo apt-get install -y mongodb-org
+```
+
+
+
 ## Deploy funcs
 
 `funcs` represents the backend of transac-cm. Ideally, it is hosted on a several servers linked by a load balancer to distribute the requests between them and evenly distribute the load. 
