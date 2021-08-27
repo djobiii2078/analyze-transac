@@ -57,7 +57,7 @@ Then import the database `transac-cm` in the folder dump.
 To achieve this, just run:
 
 ```
-mongodbimport dump/*
+mongorestore --db transac-cm dump/transac-cm --drop
 ```
 
 Now, you can visualize your application with a web browser under `localhost:3000/login`. 
