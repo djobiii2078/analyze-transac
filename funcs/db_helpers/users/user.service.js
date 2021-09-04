@@ -15,6 +15,7 @@ module.exports = {
     getAll,
     getById,
     getRoleById,
+    getOperator,
     create,
     update,
     delete: _delete,
@@ -67,6 +68,10 @@ async function getAll() {
 
 async function getById(id) {
     return await User.findById(id);
+}
+
+async function getOperator(id){
+    return await User.findById(id,'operatorname');
 }
 
 async function getRoleById(id){

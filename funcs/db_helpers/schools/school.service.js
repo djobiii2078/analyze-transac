@@ -15,6 +15,7 @@ module.exports = {
     getAllRegion,
     getAllRegionDept,
     getAllDept,
+    getRegionDept,
     getById,
     create,
     update,
@@ -33,6 +34,10 @@ async function getById(id) {
 async function getAllRegion(region){
     return await School.find({ region: region });
 
+}
+
+async function getRegionDept(schoolname){
+    return await School.find({name: schoolname},{region: 1, department: 1});
 }
 
 async function getAllRegionDept(region,dept){

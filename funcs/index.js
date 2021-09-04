@@ -1,11 +1,19 @@
 require('rootpath')();
 const express = require('express');
 const app = express();
+const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const jwt = require('db_helpers/_helpers/jwt');
 const errorHandler = require('db_helpers/_helpers/error-handler');
 
+// enable files upload
+app.use(fileUpload({
+    createParentPath: true,
+    limits: { 
+        fileSize: 4 * 1024 * 1024 * 1024 * 1024 //4GB max file(s) size
+    },
+}));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());

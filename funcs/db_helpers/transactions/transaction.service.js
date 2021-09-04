@@ -9,13 +9,16 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const db = require('../_helpers/db');
 const Transactions = db.Transaction;
-
+const Transac_record = db.Transac_record;
+const schoolService = require('../schools/school.service');
 module.exports = {
     getAll,
     getById,
     getBySchoolIds,
     create,
+    getAllRecords,
     getCount,
+    create_record,
     delete: _delete
 };
 
@@ -27,6 +30,10 @@ module.exports = {
  */
 async function getAll() {
     return await Transactions.find();
+}
+
+async function getAllRecords(operator){
+    return await Transac_record.find({operator: operator});
 }
 
 /**
@@ -46,16 +53,36 @@ async function getBySchoolIds(ids){
 
 }
 
-async function create(transaction) {
+async function create(transaction,session) {
     // validate
-   
+   //Get the region and department name from the schoolname 
+    schoolService.getRegionDept(transaction.schoolname)
+    .then(async (paramsSchool) => {
+        //console.log(JSON.parse(JSON.stringify(paramsSchool[0]));
+         transaction['region'] = JSON.parse(JSON.stringify(paramsSchool[0])).region;
+         transaction['department'] = JSON.parse(JSON.stringify(paramsSchool[0])).department;
+
+    console.log(transaction);
+
+    //@TODO: Check if school doesn't exists
+
     const transac = new Transactions(transaction);
+
 
     // hash password
     
-
     // save user
+  //  await transac.save({session});
     await transac.save();
+});
+
+   
+}
+
+async function create_record(transac_record){
+    const transac_records = new Transac_record(transac_record);
+
+    await transac_records.save();
 }
 
 /**
