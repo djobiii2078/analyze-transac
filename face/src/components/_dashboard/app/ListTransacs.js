@@ -4,6 +4,8 @@ import { sentenceCase } from 'change-case';
 import { useState, useEffect } from 'react';
 import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
+import { fShortenNumber } from '../../../utils/formatNumber';
+
 // material
 import {
   Card,
@@ -35,6 +37,7 @@ const TABLE_HEAD = [
   { id: 'operator', label: 'OPERATOR', alignRight: false },
   { id: 'schoolname', label: 'SCHOOL', alignRight: false },
   { id: 'value', label: 'AMOUNT', alignRight: false },
+  { id: 'minister', label: 'MINISTERE', alignRight: false},
   { id: 'region', label: 'REGION', alignRight: false },
   { id: 'department', label: 'DEPARTMENT', alignRight: false },
   { id: 'timestamp', label: 'DATETIME', alignRight: false },
@@ -226,7 +229,8 @@ export default function User(params) {
                              
                           </TableCell>
                           <TableCell align="left">{schoolname}</TableCell>
-                          <TableCell align="left">{value}</TableCell>
+                          <TableCell align="left">{fShortenNumber(value)}</TableCell>
+                          <TableCell align="left">{fShortenNumber(value*0.13)}</TableCell>
                           <TableCell align="left">{region}</TableCell>
                           <TableCell align="left">
                             {department}

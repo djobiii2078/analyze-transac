@@ -65,6 +65,7 @@ export default function AppBugReports(params) {
     <RootStyle>
       <Typography variant="h2"> EU </Typography>
       <Typography variant="h3">{fShortenNumber(sum)}</Typography>
+      <Typography variant="h4">{fShortenNumber(sum*0.13)} govt</Typography>
       <Typography variant="subtitle2" sx={{ opacity: 0.72 }}>
         {length} Transactions
       </Typography>
