@@ -41,7 +41,6 @@ import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-
 import { LoadingButton } from '@material-ui/lab';
 
 
@@ -51,14 +50,6 @@ import USERLIST from '../_mocks_/user';
 
 // ----------------------------------------------------------------------
 
-const TABLE_HEAD = [
-  { id: 'username', label: 'EMAIL', alignRight: false },
-  { id: 'firstName', label: 'FIRST NAME', alignRight: false },
-  { id: 'lastName', label: 'LAST NAME', alignRight: false },
-  { id: 'role', label: 'ROLE', alignRight: false },
-  { id: 'createdDate', label: 'CREATED DATE', alignRight: false },
-  { id: '' }
-];
 
 
 export default function User() {
@@ -103,72 +94,43 @@ export default function User() {
     setShowPassword((show) => !show);
   };
 
- 
 
  const session = getSessionCookie();
 const id = JSON.parse(session).id;
-const roleS = JSON.parse(session).role;
 const token = JSON.parse(session).token;
- const updateUser = (username, role, firstName, lastName) => {
-      setSessionCookie(JSON.stringify({'id':id,'role':roleS,'token':token,'usernameUpd':username,'roleUpd':role, 'firstNameUpd':firstName,'lastNameUpd':lastName}));
-      navigate('/dashboard/userupd', { replace: true });
-
-  };
+const usernameUpd = JSON.parse(session).usernameUpd;
+const firstNameUpd = JSON.parse(session).firstNameUpd;
+const lastNameUpd = JSON.parse(session).lastNameUpd;
+const roleUpd = JSON.parse(session).roleUpd;
   const formik = useFormik({
     initialValues: {
-      username: '',
-      firstName : '',
-      lastName : '',
+      email: usernameUpd,
+      firstName : firstNameUpd,
+      lastName : lastNameUpd,
       password: '',
-      role: '',
+      role: roleUpd,
       remember: true
     },
     validationSchema: LoginSchema,
     onSubmit: (values, { setSubmitting }) => {
       console.log(values);
-      fetch('http://127.0.0.1:4000/users/register', {
+      fetch('http://127.0.0.1:4000/users/update', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer '+token
 
         },
-        body: JSON.stringify({"username":values.email,"password":values.password,"role":values.role,"firstName":values.firstName,"lastName":values.lastName})
+        body: JSON.stringify({"usernameUpd":usernameUpd, "roleUpd": roleUpd, "username":values.email,"password":values.password,"role":values.role,"firstName":values.firstName,"lastName":values.lastName})
       })
       .then(data => {
-          navigate('/dashboard/user',{replace:true});
+          navigate('/dashboard/user');
       });
       
     }
   });
 
   const { errors, touched, values, isSubmitting, handleSubmit, getFieldProps } = formik;
-
-
-  useEffect (() => {
-    async function renderTable(id,token,ser,sef,setis,settable,page){
-      fetch('http://127.0.0.1:4000/users/', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+token
-        }
-     })
-      .then(records => records.json())
-      .then(records => {
-          
-      settable(records);
-      const emptyRowsBisl = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - records.length) : 0;
-      const filteredUsersBisl = records;
-      const isUserNotFoundBisl = filteredUsersBisl.length === 0;
-
-      ser(emptyRowsBisl);
-      sef(filteredUsersBisl);
-      setis(isUserNotFoundBisl);
-  });
-}
-    renderTable(id,token,setEmptyRows,setFilteredUsers,setIsUserNotFound,setTableToUse,page);
-  },[tableToUse,emptyRows,filteredUsers,isUserNotFound]);
 
   return (
     <Page title="USERS | TRANSAC-CM">
@@ -177,7 +139,7 @@ const token = JSON.parse(session).token;
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            UTILISATEURS
+            GESTION UTILISATEURS
           </Typography>
           
         </Stack>
@@ -186,7 +148,7 @@ const token = JSON.parse(session).token;
 
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            AJOUTER UN UTILISATEUR
+            Modifier  UTILISATEUR { usernameUpd }
           </Typography>
           
         </Stack>
@@ -258,83 +220,13 @@ const token = JSON.parse(session).token;
           variant="contained"
           loading={isSubmitting}
         >
-          CREER UN UTILISATEUR
+          MODIFIER UTILISATEUR
         </LoadingButton>
           </Form>
     </FormikProvider>
 <br/>
 </div>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            UTILISATEURS EXISTANTS
-          </Typography>
-          
-        </Stack>
-        
-     <Scrollbar>
-            <TableContainer sx={{ minWidth: 1000 }}>
-              <Table>
-                <UserListHead
-                  headLabel={TABLE_HEAD}
-                  rowCount={tableToUse.length}
-                />
-                <TableBody>
-                  {filteredUsers
-                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                    .map((row) => {
-                      const { username, firstName, lastName, role, createdDate } = row;
-
-                      return (
-                        <TableRow
-                          hover
-                          tabIndex={-1}
-                          role="checkbox"
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox/>
-                          </TableCell>
-                          <TableCell component="th" scope="row" padding="none">                             
-                                {username}
-                          </TableCell>
-                          <TableCell align="left">{firstName}</TableCell>
-                          <TableCell align="left">{lastName}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">
-                            {createdDate}
-                          </TableCell>
-                          <TableCell align="left">
-                            <LoadingButton
-                              fullWidth
-                              size="large"
-                              type="submit"
-                              variant="contained"
-                              loading={isSubmitting}
-                              onClick={() => updateUser(username,role,firstName,lastName)}
-                            >
-                              Modifier
-                            </LoadingButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  {emptyRows > 0 && (
-                    <TableRow style={{ height: 53 * emptyRows }}>
-                      <TableCell colSpan={6} />
-                    </TableRow>
-                  )}
-                </TableBody>
-                {isUserNotFound && (
-                  <TableBody>
-                    <TableRow>
-                      <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
-                        <SearchNotFound searchQuery={filterName} />
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                )}
-              </Table>
-            </TableContainer>
-          </Scrollbar>
+     
       </Container>
     </Page>
   );

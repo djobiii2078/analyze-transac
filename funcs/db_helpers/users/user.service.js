@@ -17,6 +17,7 @@ module.exports = {
     getRoleById,
     getOperator,
     create,
+    updateByUsername,
     update,
     delete: _delete,
     isAdmin,
@@ -102,6 +103,26 @@ async function update(id, userParam) {
     if (!user) throw 'User not found';
     if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
         throw 'Username "' + userParam.username + '" is already taken';
+    }
+
+    // hash password if it was entered
+    if (userParam.password) {
+        userParam.hash = bcrypt.hashSync(userParam.password, 10);
+    }
+
+    // copy userParam properties to user
+    Object.assign(user, userParam);
+
+    await user.save();
+}
+
+async function updateByUsername(username, userParam){
+    const user = await User.findOne({username});
+
+    if (!user) throw 'User not found';
+
+    if (user.username != userParam.username && await User.findOne({ username: userParam.username })) {
+        throw 'New Username "' + userParam.username + '" is already taken';
     }
 
     // hash password if it was entered

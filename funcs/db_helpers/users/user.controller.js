@@ -11,6 +11,7 @@ const userService = require('./user.service');
 // routes
 router.post('/authenticate', authenticate);
 router.post('/register', register);
+router.post('/update',updateUser);
 router.get('/', getAll);
 router.get('/current', getCurrent);
 router.get('/role/:id',getRoleById);
@@ -63,6 +64,12 @@ function update(req, res, next) {
     userService.update(req.params.id, req.body)
         .then(() => res.json({}))
         .catch(err => next(err));
+}
+
+function updateUser(req, res, next) {
+    userService.updateByUsername(req.body.usernameUpd,req.body)
+    .then(() => res.json({}))
+    .catch(err => next(err));
 }
 
 function _delete(req, res, next) {
